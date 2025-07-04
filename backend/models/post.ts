@@ -126,3 +126,46 @@ export const addPost = (post: Post, callback: Function) => {
     callback(error);
   }
 };
+
+
+export const update = (post: Post, callback: Function) => {
+  
+  if (post.poza !== "undefined" && post.poza !== undefined) {
+    const queryString = `UPDATE posts SET titlu=?, continut=?, poza =?, categorie_id=? WHERE id=?`;
+    db.query(
+      queryString,
+      [
+        post.titlu,
+        post.continut,
+        post.poza,
+        post.categorie_id,
+        post.id
+      ],
+      (err, result) => {
+        if (err) {
+          console.error("MySQL error:", err);
+          callback(err);
+        }
+        callback(null);
+      }
+    );
+  } else {
+   const queryString = `UPDATE posts SET titlu=?, continut=?,  categorie_id=? WHERE id=?`;
+    db.query(
+      queryString,
+      [
+        post.titlu,
+        post.continut,
+        post.categorie_id,
+        post.id,
+      ],
+      (err, result) => {
+        if (err) {
+          console.error("MySQL error:", err);
+          callback(err);
+        }
+        callback(null);
+      }
+    );
+  }
+};

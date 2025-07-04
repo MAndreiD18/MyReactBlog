@@ -69,6 +69,30 @@ postRouter.post("/",jsonParser, async (req: Request, res: Response) => {
   });
 });
 
+// Edit user
+postRouter.put("/:id", jsonParser, async (req: Request, res: Response) => {
+  console.log(req.body)
+  let fileToUpload: any;
+  let uploadPath;
+  const post: Post = req.body;
+  if (req.files && req.files.poza) {
+    fileToUpload = req.files!.poza as UploadedFile; //Object is possibly 'null' or 'undefined'.
+    const newFileName = `${Date.now()}_${fileToUpload.name}`;
+    uploadPath = path.join(__dirname, "..", "/uploads/", newFileName);
+    fileToUpload.mv(uploadPath);
+    post["poza"] = newFileName;
+  }
+  postModel.update(post, (err: Error) => {
+    if (err) {
+      return res.status(500).json({ message: err.message });
+    }
+    // res.status(200).send();
+    res.status(200).json({
+      message: "success",
+    });
+  });
+});
+
 
 
 

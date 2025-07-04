@@ -7,6 +7,7 @@ import fileUpload from "express-fileupload";
 import { userRouter } from "./routes/userRouter";
 import { postRouter } from "./routes/postRouter";
 import { adminRouter } from "./routes/adminRouter";
+import { contactRouter } from "./routes/contactRouter";
 dotenv.config();
 
 const app: Express = express();
@@ -25,9 +26,10 @@ const port = process.env.PORT;
 app.use(cors());
 app.use("/users", userRouter);
 app.use("/posts", postRouter);
+app.use("/messages", contactRouter);
 app.use("/admin", adminRouter);
 //app.use("/uploads", express.static(path.join(__dirname+ "/uploads")));
-app.use("/uploads", express.static("dist/uploads"));
+app.use("/uploads", express.static("uploads"));
 app.get("/", (req: Request, res: Response) => {
   //res.send('Express + TypeScript Server!!!!');
   res.sendFile(path.join(__dirname + "/acasa.html"));
